@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Markdown 转 Word DOCX</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        packages: { '[+]': ['ams', 'noerrors', 'noundefined'] },
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'none'
+      },
+      startup: {
+        typeset: false
+      }
+    };
+  </script>
+</head>
+<body data-page-title="meta.title">
+  <main class="app-shell">
+    <header class="top-bar">
+      <a class="brand-link" href="index.html" data-i18n="nav.home">转换工具</a>
+      <div class="top-actions">
+        <a class="coffee-link" href="donate.html" data-i18n="nav.donate">请我喝杯咖啡</a>
+        <button class="language-btn" type="button" data-language-toggle data-i18n="nav.language">English</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <p class="eyebrow" data-i18n="hero.eyebrow">Markdown → Word</p>
+      <h1 data-i18n="hero.title">上传 Markdown，转换成 .docx</h1>
+      <p class="subtitle" data-i18n="hero.subtitle">
+        支持常见 Markdown、LaTeX 公式和图片。转换在浏览器本地完成，文件不会上传到服务器。
+      </p>
+    </section>
+
+    <section class="panel controls-panel">
+      <div class="upload-grid">
+        <div class="upload-box" id="dropZone">
+          <input id="fileInput" type="file" accept=".md,.markdown,.txt,text/markdown,text/plain" />
+          <div>
+            <strong data-i18n="upload.markdown.title">选择 Markdown 文件</strong>
+            <p data-i18n="upload.markdown.desc">也可以把 .md 文件和图片一起拖到这里</p>
+          </div>
+        </div>
+
+        <div class="upload-box compact-upload">
+          <input id="assetInput" type="file" accept="image/*" multiple />
+          <div>
+            <strong data-i18n="upload.images.title">选择 Markdown 图片</strong>
+            <p data-i18n-html="upload.images.desc">用于解析 <code>![alt](images/a.png)</code> 这类本地图片路径</p>
+          </div>
+        </div>
+
+        <div class="upload-box compact-upload">
+          <input id="folderInput" type="file" webkitdirectory multiple />
+          <div>
+            <strong data-i18n="upload.folder.title">选择图片文件夹</strong>
+            <p data-i18n="upload.folder.desc">可选。适合 Markdown 引用了一个 images 文件夹的情况</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="assetList" class="asset-list" hidden></div>
+
+      <label class="field-label" for="fileNameInput" data-i18n="field.filename">导出的 Word 文件名</label>
+      <input id="fileNameInput" class="text-input" type="text" value="converted-document.docx" />
+
+      <div class="button-row">
+        <button id="convertBtn" class="primary-btn" data-i18n="button.convert">转换并下载 .docx</button>
+        <button id="clearBtn" class="secondary-btn" data-i18n="button.clear">清空内容</button>
+      </div>
+      <p id="statusText" class="status-text" aria-live="polite"></p>
+    </section>
+
+    <section class="workspace">
+      <div class="panel editor-panel">
+        <div class="panel-header">
+          <h2 data-i18n="editor.title">Markdown 内容</h2>
+          <span id="wordCount">0 字符</span>
+        </div>
+        <textarea id="markdownInput" spellcheck="false" data-i18n-placeholder="editor.placeholder"></textarea>
+      </div>
+
+      <div class="panel preview-panel">
+        <div class="panel-header">
+          <h2 data-i18n="preview.title">预览</h2>
+          <span data-i18n="preview.subtitle">公式会先渲染，图片会尽量内联</span>
+        </div>
+        <article id="preview" class="preview"></article>
+      </div>
+    </section>
+
+    <section class="note panel">
+      <h2 data-i18n="note.title">说明</h2>
+      <p data-i18n="note.body">
+        本地图片需要你同时上传图片文件，网页会根据文件名或相对路径匹配 Markdown 里的图片引用。
+      </p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html-docx-js@0.3.1/dist/html-docx.js"></script>
+  <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
